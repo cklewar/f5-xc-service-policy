@@ -1,3 +1,15 @@
+variable "project_prefix" {
+  type        = string
+  description = "prefix string put in front of string"
+  default     = "f5xc"
+}
+
+variable "project_suffix" {
+  type        = string
+  description = "prefix string put at the end of string"
+  default     = "1"
+}
+
 variable "root_path" {
   type = string
 }
@@ -20,6 +32,11 @@ variable "f5xc_aws_region" {
   default     = "us-west-2"
 }
 
+variable "f5xc_namespace" {
+  type    = string
+  default = "system"
+}
+
 provider "aws" {
   region = var.f5xc_aws_region
   alias  = "default"
@@ -30,4 +47,11 @@ provider "volterra" {
   url          = var.f5xc_api_url
   alias        = "default"
   timeout      = "30s"
+}
+
+module "service-policy" {
+  source                   = "./modules/f5xc/service-policy"
+  f5xc_namespace           = var.f5xc_namespace
+  f5xc_service_policy      = {}
+  f5xc_service_policy_name = format("%s-service-policy-s%", var.project_prefix, var.project_suffix)
 }
