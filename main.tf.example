@@ -51,7 +51,7 @@ provider "volterra" {
 
 module "namespace" {
   source                        = "./modules/f5xc/namespace"
-  f5xc_namespace_name           = format("%s-service-policy-s%", var.project_prefix, var.project_suffix)
+  f5xc_namespace_name           = format("%s-service-policy-%s", var.project_prefix, var.project_suffix)
   f5xc_namespace_create_timeout = "5s"
 }
 
