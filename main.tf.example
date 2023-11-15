@@ -53,15 +53,21 @@ module "namespace" {
   source                        = "./modules/f5xc/namespace"
   f5xc_namespace_name           = format("%s-service-policy-%s", var.project_prefix, var.project_suffix)
   f5xc_namespace_create_timeout = "5s"
+  providers                     = {
+    volterra = volterra.default
+  }
 }
 
 module "service-policy" {
   source                   = "./modules/f5xc/service-policy"
   f5xc_namespace           = var.f5xc_namespace
-  f5xc_service_policy_name = format("%s-service-policy-s%", var.project_prefix, var.project_suffix)
+  f5xc_service_policy_name = format("%s-service-policy-%s", var.project_prefix, var.project_suffix)
   f5xc_service_policy      = {
     deny_list = {
       country_list = ["COUNTRY_CN"]
     }
+  }
+  providers = {
+    volterra = volterra.default
   }
 }
