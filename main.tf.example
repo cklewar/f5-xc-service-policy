@@ -60,7 +60,7 @@ module "namespace" {
 
 module "service-policy" {
   source                   = "./modules/f5xc/service-policy"
-  f5xc_namespace           = var.f5xc_namespace
+  f5xc_namespace           = module.namespace.namespace["name"]
   f5xc_service_policy_name = format("%s-service-policy-%s", var.project_prefix, var.project_suffix)
   f5xc_service_policy      = {
     rules = [
