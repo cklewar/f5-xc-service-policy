@@ -63,6 +63,26 @@ module "service-policy" {
   f5xc_namespace           = var.f5xc_namespace
   f5xc_service_policy_name = format("%s-service-policy-%s", var.project_prefix, var.project_suffix)
   f5xc_service_policy      = {
+    rules = [
+      {
+        metadata = {
+          name = "r1"
+        }
+        spec = {
+          action     = "ALLOW"
+          any_client = true
+        }
+      },
+      {
+        metadata = {
+          name = "r2"
+        }
+        spec = {
+          action = "DENY"
+          any_ip = true
+        }
+      }
+    ]
     deny_list = {
       country_list = ["COUNTRY_CN"]
     }
@@ -70,4 +90,8 @@ module "service-policy" {
   providers = {
     volterra = volterra.default
   }
+}
+
+output "all" {
+  value = module.service-policy.service_policy
 }
