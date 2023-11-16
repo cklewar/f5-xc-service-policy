@@ -92,6 +92,6 @@ module "service-policy" {
   }
 }
 
-output "all" {
+output "service_policy" {
   value = module.service-policy.service_policy
 }
